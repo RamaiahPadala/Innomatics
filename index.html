@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Brew Awaking</title>
+    <link rel="stylesheet" href="./Styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+        }
+
+        .container {
+            background: url('./coffee.png');
+            background-size: 100% 100%;
+            color: white;
+            font-size: 20px;
+            padding: 20px;
+            height: 95%;
+        }
+        nav a{
+            text-decoration: none;
+            color: white;
+            margin-left: 5px;
+        }
+        nav a:hover{
+            background-color: black;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .head {
+            display: flex;
+            justify-content: space-between;
+        }
+        .search i{
+            color: black;
+            font-size: 20px;
+        }
+        .search input{
+            border: none;
+            margin-left: 3px;
+        }
+        .search{
+            background-color: white;
+            display: flex;
+            padding: 5px;
+            border-radius: 5px;
+
+        }
+        .heading {
+            padding-top: 200px;
+            padding-bottom: 100px;
+            margin: 30px;
+            text-align: center;
+            & h1{
+                padding: 10px;
+            }
+            & p{
+                padding: 20px;
+            }
+            & button{
+                background-color: orange;
+                border-radius: 5px;
+                padding: 10px;
+                border: none;
+            }
+        }
+        .Menu{
+            padding: 30px;
+            text-align: center;
+        }
+        .About_US {
+            padding: 30px;
+            text-align: center;
+            & p {
+                margin-top: 20px;
+            }
+        }
+        .cards{
+            padding-top: 30px;
+            display: flex;
+            border-radius: 15px;
+            justify-content: center ;
+            align-items: center;
+            width: fi;
+
+        }
+        .card{
+            margin: 20px;
+            padding: 10px;
+            border: 1px solid grey;
+            box-shadow: 0px 3px 5px;
+            & img{
+                width: 300px;
+                height: 300px;
+                border-radius: 5px;
+            }
+            & a{
+                text-decoration: none;
+                color: black;
+                font-weight: bold;
+            }
+
+        }
+        .Contact{
+            padding: 30px;
+            text-align: center;
+            & i {
+                margin-top: 20px;
+                padding: 10px;
+            }
+        }
+        footer{
+            margin: 30px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="head">
+            Breawed Awaking
+            <div class="search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text">
+            </div>
+            <nav>
+                <a href="#Menu">Menu</a>
+                <a href="#About_Us">About Us</a>
+                <a href="#Contact">Contact</a>
+            </nav>
+        </div>
+        <div class="heading">
+            <h1>Welcome to Brewed Awaking</h1>
+            <p>Fueling up for the day</p>
+            <button >View Menu</button>
+        </div>
+    </div>
+    <div class="Menu" id="Menu">
+        <h1>Our Menu</h1>
+        <div class="cards">
+            <div class="card">
+                <img src="./menu1.png" alt="cappuccino">
+                <br><a href="">cappuccino</a>
+            </div>
+            <div class="card">
+                <img src="./menu3.png" alt="Cold Coffee">
+                <br><a href="">Cold Coffee</a>
+            </div>
+            <div class="card">
+                <img src="./menu2.png" alt="Hot Coffee">
+                <br><a href="">Hot Coffee</a>
+            </div>
+        </div>
+    </div>
+    <div class="About_US" id="About_Us">
+        <h1>About US</h1>
+        <p>We believe that coffee is more than just a drink: It’s a culture, an economy, an art, a science — and a passion.</p>
+        <div class="cards">
+            <div class="card">
+                <img src="https://www.ncausa.org/portals/56/Images/Industry/NCA_Web_Medium_sprouts.png?ver=2016-05-20-132935-680" alt="IMG">
+                <br><a href="">visit aboutcoffee.org</a>
+                <p>A guide to our consumer website all about coffee—from its origins to the different types of coffee, brewing methods, independent research on coffee and health, and more.</p>
+            </div>
+            <div class="card">
+                <img src="https://www.innomatics.in/wp-content/uploads/2025/01/FULL-STACK-WEB.jpg" alt="IMG">
+                <br><a href="">NCA Sustainability Showcase</a>
+                <p>We are proud to recognize the important work that NCA members are doing across the sector, from improving the conditions at origin to developing eco-friendly facilities and recyclable packaging materials.</p>
+            </div>
+            <div class="card">
+                <img src="https://www.innomatics.in/wp-content/uploads/2025/01/WhatsApp-Image-2025-01-17-at-11.49.18.jpeg" alt="IMG">
+                <br><a href="">NCA Sustainability Showcase</a>
+                <p>As part of the NCA Coffee Gives Back program, this charity showcase amplifies the visibility of organizations dedicated to supporting coffee origin communities.</p>
+            </div>
+        </div>
+    </div>
+    <div class="Contact" id="Contact">
+        <h1>Contact</h1>
+        <i class="fa-solid fa-phone"> +91 XXXXXXXXXX</i>
+        <i class="fa-solid fa-envelope"> XX.XX@gmail.com</i>
+    </div>
+    <hr style="box-shadow: 2px 0px 2px;">
+    <footer>
+        @CopyRight Brew Awesome -- Version 2.0
+    </footer>
+</body>
+
+</html>
