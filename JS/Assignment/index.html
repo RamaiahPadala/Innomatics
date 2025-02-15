@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar li {
+            display: inline;
+            margin-right: 15px;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .cart-icon {
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        /* Product List */
+        .product-list {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        .product {
+            width: 200px;
+            margin: 10px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .product button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .product button:hover {
+            background-color: #218838;
+        }
+
+        /* Cart Panel */
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 300px;
+            background-color: white;
+            height: 100%;
+            box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.2);
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            padding: 20px;
+            z-index: 100;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        #close-cart {
+            cursor: pointer;
+            font-size: 20px;
+            background: none;
+            border: none;
+        }
+
+        /* Cart Visibility (for Mobile) */
+        @media (max-width: 768px) {
+            .cart-panel {
+                transform: translateX(100%);
+            }
+
+            .cart-panel.open {
+                transform: translateX(0);
+            }
+
+            .product-list {
+                flex-direction: column;
+            }
+        }
+
+        /* Desktop View Cart */
+        @media (min-width: 768px) {
+            .cart-panel.open {
+                transform: translateX(0);
+            }
+
+            /* For large screens, cart will slide from the right */
+            .cart-panel {
+                transform: translateX(100%);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <ul>
+            <li><a href="#">Mobiles</a></li>
+            <li><a href="#">Laptops</a></li>
+            <li><a href="#">Accessories</a></li>
+        </ul>
+        <div class="cart-icon">
+            &#128722;  <span id="cart-count">0</span>
+        </div>
+    </nav>
+
+    <!-- Product List -->
+    <section class="product-list">
+        <div class="product" data-id="1">
+            <h3>Mobile 1</h3>
+            <p>Price: $500</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="product" data-id="2">
+            <h3>Mobile 2</h3>
+            <p>Price: $600</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="product" data-id="3">
+            <h3>Laptop 1</h3>
+            <p>Price: $1000</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+        <div class="product" data-id="4">
+            <h3>Laptop 2</h3>
+            <p>Price: $1200</p>
+            <button class="add-to-cart">Add to Cart</button>
+        </div>
+    </section>
+
+    <!-- Cart Sidebar -->
+    <div id="cart-panel" class="cart-panel">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <button id="close-cart">X</button>
+        </div>
+        <div id="cart-items"></div>
+        <div class="cart-footer">
+            <p>Total: $<span id="cart-total">0</span></p>
+            <button  id="empty-cart">Empty Cart</button>
+        </div>
+    </div>
+
+    <script>
+        // Get elements
+        const cartIcon = document.querySelector('.cart-icon');
+        const cartPanel = document.getElementById('cart-panel');
+        const closeCartBtn = document.getElementById('close-cart');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartTotal = document.getElementById('cart-total');
+        const emptyCartBtn = document.getElementById('empty-cart');
+        const cartCount = document.getElementById('cart-count');
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+
+        // Cart Data
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Update Cart in UI
+        function updateCartUI() {
+            cartItemsContainer.innerHTML = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add('cart-item');
+                itemDiv.innerHTML = `
+                    <p>${item.name} - $${item.price}</p>
+                    <input type="number" value="${item.quantity}" min="1" class="quantity" data-id="${item.id}" disabled>
+                    <button class="remove-item" data-id="${item.id}">Remove</button>
+                `;
+                cartItemsContainer.appendChild(itemDiv);
+
+                total += item.price * item.quantity;
+            });
+
+            cartTotal.textContent = total.toFixed(2);
+            cartCount.textContent = cart.length;
+
+            // Update localStorage
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        // Open/Close Cart
+        cartIcon.addEventListener('click', () => {
+            cartPanel.classList.toggle('open');
+        });
+
+        closeCartBtn.addEventListener('click', () => {
+            cartPanel.classList.remove('open');
+        });
+
+        // Add Item to Cart
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const product = e.target.closest('.product');
+                const id = product.getAttribute('data-id');
+                const name = product.querySelector('h3').textContent;
+                const price = parseFloat(product.querySelector('p').textContent.replace('Price: $', ''));
+
+                const existingItem = cart.find(item => item.id === id);
+
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({ id, name, price, quantity: 1 });
+                }
+
+                updateCartUI();
+            });
+        });
+
+        // Remove Item from Cart
+        cartItemsContainer.addEventListener('click', (e) => {
+            if (e.target.classList.contains('remove-item')) {
+                const id = e.target.getAttribute('data-id');
+                cart = cart.filter(item => item.id !== id);
+                updateCartUI();
+            }
+        });
+
+        // Update Quantity
+        cartItemsContainer.addEventListener('input', (e) => {
+            if (e.target.classList.contains('quantity')) {
+                const id = e.target.getAttribute('data-id');
+                const quantity = parseInt(e.target.value);
+                const item = cart.find(item => item.id === id);
+
+                if (item) {
+                    item.quantity = quantity;
+                    updateCartUI();
+                }
+            }
+        });
+
+        // Empty Cart
+        emptyCartBtn.addEventListener('click', () => {
+            cart = [];
+            updateCartUI();
+        });
+
+        // Initialize Cart UI
+        updateCartUI();
+    </script>
+
+</body>
+
+</html>
