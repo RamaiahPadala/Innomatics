@@ -21,6 +21,7 @@ const scoreDisplay = document.getElementById("score");
 const gameOverScreen = document.querySelector(".game-over");
 const finalScoreDisplay = document.getElementById("final-score");
 const restartButton = document.getElementById("restart");
+const gameOverMessage = document.getElementById("game-over-message");
 
 // Event listeners for category selection
 document.querySelectorAll(".category-buttons button").forEach(button => {
@@ -68,7 +69,6 @@ function handleCardClick(event) {
 function flipCard(card) {
     card.classList.add("flipped");
     card.textContent = card.dataset.value;
-    document.getElementById("flip-sound").play();
 }
 
 // Check for a match
@@ -80,7 +80,6 @@ function checkForMatch() {
         matchedCards.push(card1, card2);
         score += 10;
         scoreDisplay.textContent = score;
-        document.getElementById("match-sound").play();
         if (matchedCards.length === selectedCategory.length * 2) {
             endGame(true);
         }
@@ -108,10 +107,15 @@ function startTimer() {
 
 // End the game
 function endGame(isWin) {
-    clearInterval(timer);
-    gameOverScreen.classList.remove("hidden");
-    finalScoreDisplay.textContent = score;
-    document.getElementById("game-over-sound").play();
+    clearInterval(timer); // Stop the timer
+    gameOverScreen.classList.remove("hidden"); // Show the game over screen
+    finalScoreDisplay.textContent = score; // Display the final score
+
+    // Disable further card clicks
+    const cards = document.querySelectorAll(".card");
+    cards.forEach(card => {
+        card.removeEventListener("click", handleCardClick);
+    });
 }
 
 // Restart the game
