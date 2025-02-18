@@ -70,6 +70,12 @@ body {
     display: none;
 }
 
+#game-over-message {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
     .cards-grid {
